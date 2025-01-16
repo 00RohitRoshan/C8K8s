@@ -15,7 +15,7 @@ data:
         exporters:
           customExporter:
             className: com.isu.camunda.exporter.process.CustomPostgresExporter
-            jarPath: /usr/local/zeebe/lib/camunda-exporter-0.0.1-SNAPSHOT.jar
+            jarPath: /usr/local/zeebe/exporters/camunda-exporter-0.0.1-SNAPSHOT.jar
             args:
               jdbcUrl: jdbc:postgresql://35.200.195.169:5432/bitnami_keycloak
               username: bn_keycloak
