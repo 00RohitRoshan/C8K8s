@@ -24,6 +24,7 @@ global:
       webModeler:
         # redirectUrl: "http://txnflow.txninfra.com/modeler"
 
+identityKeycloak.enabled: false
 # identityKeycloak:
 #   image:
 #     repository: bitnami/keycloak
