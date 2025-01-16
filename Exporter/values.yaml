@@ -62,14 +62,14 @@ connectors:
 
 
 identity:
-  enabled: false
-  # service:
-  #   type: LoadBalancer
-  # # contextPath: "/identity"
-  # # fullURL: "http://txnflow.txninfra.com/identity"
-  # env:
-  # - name: USER_RESTRICTIONS_ENABLED
-  #   value: "true"
+  # enabled: false
+  service:
+    type: LoadBalancer
+  # contextPath: "/identity"
+  # fullURL: "http://txnflow.txninfra.com/identity"
+  env:
+  - name: USER_RESTRICTIONS_ENABLED
+    value: "true"
 
 zeebeGateway:
   service:
