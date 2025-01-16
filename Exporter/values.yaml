@@ -9,19 +9,19 @@ global:
   #   className: nginx
   #   host: "txnflow.txninfra.com"
 
-  identity:
-    auth:
-      enabled: false
-      # publicIssuerUrl: "http://txnflow.txninfra.com/auth/realms/camunda-platform"
-      operate:
-        # redirectUrl: "http://txnflow.txninfra.com/operate"
-      tasklist:
-        # redirectUrl: "http://txnflow.txninfra.com/tasklist"
-      optimize:
-        # redirectUrl: "http://txnflow.txninfra.com/optimize"
-      connectors:
-        # redirectUrl: "http://txnflow.txninfra.com/connectors"
-      webModeler:
+  # identity:
+  #   auth:
+  #     enabled: false
+  #     # publicIssuerUrl: "http://txnflow.txninfra.com/auth/realms/camunda-platform"
+  #     operate:
+  #       # redirectUrl: "http://txnflow.txninfra.com/operate"
+  #     tasklist:
+  #       # redirectUrl: "http://txnflow.txninfra.com/tasklist"
+  #     optimize:
+  #       # redirectUrl: "http://txnflow.txninfra.com/optimize"
+  #     connectors:
+  #       # redirectUrl: "http://txnflow.txninfra.com/connectors"
+  #     webModeler:
         # redirectUrl: "http://txnflow.txninfra.com/modeler"
 
 # identityKeycloak:
