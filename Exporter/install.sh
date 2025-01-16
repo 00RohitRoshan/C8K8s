@@ -9,6 +9,7 @@ usage() {
 # Default values
 NAMESPACE=""
 RELEASE_NAME=""
+CONFIGMAP_NAME="config" # Default ConfigMap name
 
 # Parse arguments
 while getopts "n:r:" opt; do
@@ -37,11 +38,19 @@ else
   echo "No namespace provided. Proceeding without specifying a namespace."
 fi
 
-# Create ConfigMap
+# Recreate ConfigMap
 if [[ -n $NAMESPACE ]]; then
-  kubectl create configmap config --from-file=application.yaml -n "$NAMESPACE"
+  if kubectl get configmap "$CONFIGMAP_NAME" -n "$NAMESPACE" &>/dev/null; then
+    echo "ConfigMap $CONFIGMAP_NAME exists in namespace $NAMESPACE. Recreating..."
+    kubectl delete configmap "$CONFIGMAP_NAME" -n "$NAMESPACE"
+  fi
+  kubectl create configmap "$CONFIGMAP_NAME" --from-file=application.yaml -n "$NAMESPACE"
 else
-  kubectl create configmap config --from-file=application.yaml
+  if kubectl get configmap "$CONFIGMAP_NAME" &>/dev/null; then
+    echo "ConfigMap $CONFIGMAP_NAME exists in the default namespace. Recreating..."
+    kubectl delete configmap "$CONFIGMAP_NAME"
+  fi
+  kubectl create configmap "$CONFIGMAP_NAME" --from-file=application.yaml
 fi
 
 # Install/Upgrade Helm chart

@@ -38,6 +38,8 @@ global:
     
 
 operate:
+  service:
+    type: LoadBalancer
   # contextPath: "/operate"
 
 tasklist:
@@ -46,6 +48,8 @@ tasklist:
   # contextPath: "/tasklist"
 
 optimize:
+  service:
+    type: LoadBalancer
   # contextPath: "/optimize"
 
 connectors:
@@ -56,6 +60,8 @@ connectors:
 
 
 identity:
+  service:
+    type: LoadBalancer
   # contextPath: "/identity"
   # fullURL: "http://txnflow.txninfra.com/identity"
   env:
