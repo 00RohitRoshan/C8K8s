@@ -1,0 +1,112 @@
+# Chart values for the Camunda 8 Helm chart.
+# This file deliberately contains only the values that differ from the defaults.
+# For changes and documentation, use your favorite diff tool to compare it with:
+# http://artifacthub.io/packages/helm/camunda/camunda-platform#parameters
+
+global:
+  ingress:
+    enabled: true
+    className: nginx
+    host: "txnflow.txninfra.com"
+
+  identity:
+    auth:
+      enabled: true
+      publicIssuerUrl: "http://txnflow.txninfra.com/auth/realms/camunda-platform"
+      operate:
+        redirectUrl: "http://txnflow.txninfra.com/operate"
+      tasklist:
+        redirectUrl: "http://txnflow.txninfra.com/tasklist"
+      optimize:
+        redirectUrl: "http://txnflow.txninfra.com/optimize"
+      connectors:
+        redirectUrl: "http://txnflow.txninfra.com/connectors"
+      webModeler:
+        redirectUrl: "http://txnflow.txninfra.com/modeler"
+
+identityKeycloak:
+  image:
+    repository: bitnami/keycloak
+    tag: 26.0.5
+  extraEnvVars:
+    - name: FRONTEND_URL
+      value: "https://txnflow.txninfra.com/auth/"
+    - name: KEYCLOAK_FRONTEND_URL
+      value: "https://txnflow.txninfra.com/auth/"
+    - name: KC_HOSTNAME
+      value: "https://txnflow.txninfra.com/auth/"
+    
+
+operate:
+  contextPath: "/operate"
+
+tasklist:
+  contextPath: "/tasklist"
+
+optimize:
+  contextPath: "/optimize"
+
+connectors:
+  enabled: true
+  inbound:
+    mode: disabled
+  contextPath: "/connectors"
+
+# webModeler:
+#   webapp:
+#     env:
+#     # - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+#     #   value: "https://txnflow.txninfra.com/auth/realms/camunda-platform"
+#     - name: OAUTH2_TOKEN_ISSUER
+#       value: "https://txnflow.txninfra.com/auth/realms/camunda-platform"
+#   enabled: true
+#   contextPath: "/modeler"
+#   image:
+#     pullSecrets:
+#       - name: camunda-docker-registry
+#   restapi:
+#     # env:
+#     # - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+#     #   value: "https://txnflow.txninfra.com/auth/realms/camunda-platform"
+#     mail:
+#       smtpPassword: "jena%$#@123"
+#       fromAddress: rohit.r@iserveu.co.in
+
+# postgresql:
+#   enabled: true
+
+identity:
+  contextPath: "/identity"
+  fullURL: "http://txnflow.txninfra.com/identity"
+  env:
+  - name: USER_RESTRICTIONS_ENABLED
+    value: "true"
+
+zeebeGateway:
+  contextPath: "/zeebe"
+  # ingress:
+  #   grpc:
+  #     enabled: true
+  #     host: "txnflow.txninfra.com"
+  extraInitContainers:
+  - name: init-exporters-hazelcast
+    image: busybox:1.35
+    command: ["/bin/sh", "-c"]
+    args:
+      [
+        "wget --no-check-certificate https://github.com/00RohitRoshan/Identity/raw/refs/heads/main/camunda-exporter-0.0.1-SNAPSHOT.jar -O /exporters/camunda-exporter-0.0.1-SNAPSHOT.jar; ls -al /exporters",
+      ]
+    volumeMounts:
+      - name: exporters
+        mountPath: /exporters/
+  extraVolumes:
+  - name: camunda-theme
+    configMap: zeebe-config
+    emptyDir:
+      sizeLimit: 10Mi
+  extraVolumeMounts:
+    - name: application.yaml
+      mountPath: /usr/local/zeebe/config/
+      subPath: application.yaml
+
+# kubectl create configmap config --from-file application.yaml

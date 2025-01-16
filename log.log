@@ -1,0 +1,154 @@
+kubectl exec camunda-keycloak-0 -it keycloak -- /bin/bash
+LAST DEPLOYED: Tue Nov 12 14:13:08 2024
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+# (camunda-platform - 11.0.3)
+
+ ######     ###    ##     ## ##     ## ##    ## ########     ###
+##    ##   ## ##   ###   ### ##     ## ###   ## ##     ##   ## ##
+##        ##   ##  #### #### ##     ## ####  ## ##     ##  ##   ##
+##       ##     ## ## ### ## ##     ## ## ## ## ##     ## ##     ##
+##       ######### ##     ## ##     ## ##  #### ##     ## #########
+##    ## ##     ## ##     ## ##     ## ##   ### ##     ## ##     ##
+ ######  ##     ## ##     ##  #######  ##    ## ########  ##     ##
+
+###################################################################
+
+## Installed Services:
+
+- Console:
+  - Enabled: false
+- Zeebe:
+  - Enabled: true
+  - Docker Image used for Zeebe: camunda/zeebe:8.6.5
+  - Zeebe Cluster Name: "camunda-zeebe"
+  - Prometheus ServiceMonitor Enabled: false
+- Operate:
+  - Enabled: true
+  - Docker Image used for Operate: camunda/operate:8.6.3
+- Tasklist:
+  - Enabled: true
+  - Docker Image used for Tasklist: camunda/tasklist:8.6.5
+- Optimize:
+  - Enabled: true
+  - Docker Image used for Optimize: camunda/optimize:8.6.2
+- Connectors:
+  - Enabled: true
+  - Docker Image used for Connectors: camunda/connectors-bundle:8.6.4
+- Identity:
+  - Enabled: true
+  - Docker Image used for Identity: camunda/identity:8.6.4
+  - Keycloak: bitnami/keycloak:25.0.6
+- Web Modeler:
+  - Enabled: false
+- Elasticsearch:
+  - Enabled: true
+  - Docker Image used for Elasticsearch: bitnami/elasticsearch:8.15.3
+
+### Zeebe
+
+The Cluster itself is not exposed as a service which means that you can use `kubectl port-forward` to access the Zeebe cluster from outside Kubernetes:
+
+> kubectl port-forward svc/camunda-zeebe-gateway 26500:26500 -n default
+> kubectl port-forward svc/camunda-zeebe-gateway 8088:8080 -n default
+
+Now you can connect your workers and clients to `localhost:26500`
+### Connecting to Web apps
+
+
+As part of the Helm charts, an ingress definition can be deployed, but you require to have an Ingress Controller for that Ingress to be Exposed.
+In order to deploy the ingress manifest, set `<service>.ingress.enabled` to `true`. Example: `operate.ingress.enabled=true`
+
+If you don't have an ingress controller you can use `kubectl port-forward` to access the deployed web application from outside the cluster:
+
+Identity:
+> kubectl port-forward svc/camunda-identity 8080:80
+Operate:
+> kubectl port-forward svc/camunda-operate  8081:80
+Tasklist:
+> kubectl port-forward svc/camunda-tasklist 8082:80
+Optimize:
+> kubectl port-forward svc/camunda-optimize 8083:80
+
+Connectors:
+> kubectl port-forward svc/camunda-connectors 8086:8080
+
+
+If you want to use different ports for the services, please adjust the related configs in the values file since these ports are used as redirect URLs for Keycloak.
+
+Authentication via Identity/Keycloak is enabled. To login into one of the services please port-forward to Keycloak
+as well, otherwise, a login will not be possible. Make sure you use `18080` as a port.
+
+> kubectl port-forward svc/camunda-keycloak 18080:80
+
+Now you can point your browser to one of the service's login pages. Example: http://localhost:8081 for Operate.
+
+Default user and password: "demo/demo"
+
+## Combined Ingress
+
+- Keycloak Authentication: http://txnflow.iserveu.online/auth
+- Web Applications:
+  
+  - Identity: http://txnflow.iserveu.online/identity
+  - Operate: http://txnflow.iserveu.online/operate
+  - Optimize: http://txnflow.iserveu.online/optimize
+  - Tasklist: http://txnflow.iserveu.online/tasklist
+  
+- Zeebe Gateway gRPC: http://localhost:26500
+
+## Console configuration
+
+- name: camunda
+  namespace: default
+  version: 11.0.3
+  components:
+  - name: Keycloak
+    id: keycloak
+    version: 25.0.6
+    url: http://txnflow.iserveu.online/auth
+  - name: Identity
+    id: identity
+    version: 8.6.4
+    url: http://txnflow.iserveu.online/identity
+    readiness: http://camunda-identity.default:82/actuator/health
+    metrics: http://camunda-identity.default:82/actuator/prometheus
+  - name: Operate
+    id: operate
+    version: 8.6.3
+    url: http://txnflow.iserveu.online/operate
+    readiness: http://camunda-operate.default:9600/operate/actuator/health/readiness
+    metrics: http://camunda-operate.default:9600/operate/actuator/prometheus
+  - name: Optimize
+    id: optimize
+    version: 8.6.2
+    url: http://txnflow.iserveu.online/optimize
+    readiness: http://camunda-optimize.default:80/optimize/api/readyz
+    metrics: http://camunda-optimize.default:8092/actuator/prometheus
+  - name: Tasklist
+    id: tasklist
+    version: 8.6.5
+    url: http://txnflow.iserveu.online/tasklist
+    readiness: http://camunda-tasklist.default:9600/tasklist/actuator/health/readiness
+    metrics: http://camunda-tasklist.default:9600/tasklist/actuator/prometheus
+  - name: Zeebe Gateway
+    id: zeebeGateway
+    version: 8.6.5
+    urls:
+      grpc: http://localhost:26500
+      http: http://txnflow.iserveu.online
+    readiness: http://camunda-zeebe-gateway.default:9600/actuator/health/readiness
+    metrics: http://camunda-zeebe-gateway.default:9600/actuator/prometheus
+  - name: Zeebe
+    id: zeebe
+    version: 8.6.5
+    readiness: http://camunda-zeebe.default:9600/actuator/health/readiness
+    metrics: http://camunda-zeebe.default:9600/actuator/prometheus
+
+[camunda][warning]
+DEPRECATION NOTICE: Starting from appVersion 8.7, the Camunda Helm chart will no longer support the global.multiregion.installationType option. This is replaced with a new procedure for managing multi-region installations documented here:
+https://docs.camunda.io/docs/self-managed/operational-guides/multi-region/dual-region-operational-procedure/
+Please unset this option to remove the warning.
+rohit_r@cloudshell:~ (iserveustaging)$ 

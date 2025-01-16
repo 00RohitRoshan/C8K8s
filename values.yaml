@@ -1,0 +1,78 @@
+# Chart values for the Camunda 8 Helm chart.
+# This file deliberately contains only the values that differ from the defaults.
+# For changes and documentation, use your favorite diff tool to compare it with:
+# http://artifacthub.io/packages/helm/camunda/camunda-platform#parameters
+
+
+
+global:
+  ingress:
+    enabled: true
+    className: nginx
+    host: "https://camunda.txninfra.com/"
+
+  identity:
+    auth:
+      enabled: true
+      publicIssuerUrl: "http://keycloak.txninfra.com/auth/realms/camunda-platform"
+      operate:
+        redirectUrl: "https://camunda.txninfra.com/operate"
+      tasklist:
+        redirectUrl: "https://camunda.txninfra.com/tasklist"
+      optimize:
+        redirectUrl: "https://camunda.txninfra.com/optimize"
+      connectors:
+        redirectUrl: "https://camunda.txninfra.com/connectors"
+
+identityKeycloak:
+  image:
+    repository: bitnami/keycloak
+    tag: 26.0.5
+  extraEnvVars:
+    - name: FRONTEND_URL
+      value: "https://keycloak.txninfra.com/auth/"
+    - name: KEYCLOAK_FRONTEND_URL
+      value: "https://keycloak.txninfra.com/auth/"
+    - name: KC_HOSTNAME
+      value: "https://keycloak.txninfra.com/auth/"
+    
+
+operate:
+  contextPath: "/operate"
+
+tasklist:
+  contextPath: "/tasklist"
+
+optimize:
+  contextPath: "/optimize"
+
+connectors:
+  enabled: true
+  inbound:
+    mode: disabled
+  contextPath: "/connectors"
+
+
+identity:
+  contextPath: "/identity"
+  fullURL: "https://camunda.txninfra.com/identity"
+
+
+zeebeGateway:
+  contextPath: "/zeebe"
+
+
+
+# helm upgrade --install camunda camunda/camunda-platform -f values.yaml -n camunda
+
+# kubectl expose deployment camunda-zeebe-gateway --type=LoadBalancer --port=8080 --target-port=8080 -n camunda
+# kubectl expose deployment camunda-zeebe-gateway --type=LoadBalancer --port=9600 --target-port=9600 -n camunda
+# kubectl expose deployment camunda-zeebe-gateway --type=LoadBalancer --port=26500 --target-port=26500 -n camunda
+ 
+# kubectl expose deployment camunda-elasticsearch-master --type=LoadBalancer --port=9200 --target-port=9200 -n camunda
+
+      # - ZEEBE_BROKER_EXPORTERS_CUSTOMEXPORTER_JARPATH=/usr/local/zeebe/lib/camunda-exporter-0.0.1-SNAPSHOT.jar
+      # - ZEEBE_BROKER_EXPORTERS_CUSTOMEXPORTER_CLASSNAME=com.isu.camunda.exporter.process.CustomPostgresExporter
+
+      # - ./application.yaml:/usr/local/zeebe/config/application.yaml
+      # - ./camunda-exporter-0.0.1-SNAPSHOT.jar:/usr/local/zeebe/lib/camunda-exporter-0.0.1-SNAPSHOT.jar 

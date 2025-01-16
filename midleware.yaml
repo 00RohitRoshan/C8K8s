@@ -1,0 +1,43 @@
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Service
+metadata:
+  name: los-workflow-process
+  labels:
+    app: los-workflow-process
+
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  selector:
+    app: los-workflow-process
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: los-workflow-process
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: los-workflow-process
+  
+  template:
+    metadata:
+      labels:
+        app: los-workflow-process
+    
+    spec:
+      containers:
+      - image: gcr.io/iserveustaging/los-workflow-process
+        imagePullPolicy: IfNotPresent
+        name: los-workflow-process
+    
+        ports:
+        - containerPort: 8080
+EOF
+

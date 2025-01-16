@@ -1,0 +1,66 @@
+# Chart values for the Camunda 8 Helm chart.
+# This file deliberately contains only the values that differ from the defaults.
+# For changes and documentation, use your favorite diff tool to compare it with:
+# https://artifacthub.io/packages/helm/camunda/camunda-platform#parameters
+
+global:
+  ingress:
+    enabled: true
+    className: nginx
+    host: "$CAMUNDA_HOSTNAME"
+    tls:
+      enabled: true
+      secretName: "tls-secret"
+  identity:
+    auth:
+      publicIssuerUrl: "https://$CAMUNDA_HOSTNAME/auth/realms/camunda-platform"
+      operate:
+        redirectUrl: "https://$CAMUNDA_HOSTNAME/operate"
+      tasklist:
+        redirectUrl: "https://$CAMUNDA_HOSTNAME/tasklist"
+      optimize:
+        redirectUrl: "https://$CAMUNDA_HOSTNAME/optimize"
+      connectors:
+        redirectUrl: "https://$CAMUNDA_HOSTNAME/connectors"
+      webModeler:
+        redirectUrl: "https://$CAMUNDA_HOSTNAME/modeler"
+
+operate:
+  contextPath: "/operate"
+
+tasklist:
+  contextPath: "/tasklist"
+
+optimize:
+  contextPath: "/optimize"
+
+connectors:
+  enabled: true
+  inbound:
+    mode: oauth
+  contextPath: "/connectors"
+
+webModeler:
+  enabled: true
+  contextPath: "/modeler"
+  image:
+    pullSecrets:
+      - name: camunda-docker-registry
+  restapi:
+    mail:
+      smtpPassword: "jena%$#@123"
+      fromAddress: rohit.r@iserveu.co.in
+
+postgresql:
+  enabled: true
+
+identity:
+  contextPath: "/identity"
+  fullURL: "https://$CAMUNDA_HOSTNAME/identity"
+
+zeebeGateway:
+  contextPath: "/zeebe"
+  ingress:
+    grpc:
+      enabled: true
+      host: "$CAMUNDA_HOSTNAME"
