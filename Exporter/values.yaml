@@ -59,14 +59,14 @@ connectors:
   # contextPath: "/connectors"
 
 
-identity:
-  service:
-    type: LoadBalancer
-  # contextPath: "/identity"
-  # fullURL: "http://txnflow.txninfra.com/identity"
-  env:
-  - name: USER_RESTRICTIONS_ENABLED
-    value: "true"
+# identity:
+#   service:
+#     type: LoadBalancer
+#   # contextPath: "/identity"
+#   # fullURL: "http://txnflow.txninfra.com/identity"
+#   env:
+#   - name: USER_RESTRICTIONS_ENABLED
+#     value: "true"
 
 zeebeGateway:
   service:
