@@ -63,6 +63,8 @@ identity:
     value: "true"
 
 zeebeGateway:
+  service:
+    type: LoadBalancer
   # contextPath: "/zeebe"
 
 zeebe:
