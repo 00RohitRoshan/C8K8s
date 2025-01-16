@@ -12,19 +12,19 @@ global:
   identity:
     auth:
       enabled: false
-      # publicIssuerUrl: "http://txnflow.txninfra.com/auth/realms/camunda-platform"
-      operate:
-        # redirectUrl: "http://txnflow.txninfra.com/operate"
-      tasklist:
-        # redirectUrl: "http://txnflow.txninfra.com/tasklist"
-      optimize:
-        # redirectUrl: "http://txnflow.txninfra.com/optimize"
-      connectors:
-        # redirectUrl: "http://txnflow.txninfra.com/connectors"
-      webModeler:
-        # redirectUrl: "http://txnflow.txninfra.com/modeler"
+      # # publicIssuerUrl: "http://txnflow.txninfra.com/auth/realms/camunda-platform"
+      # operate:
+      #   # redirectUrl: "http://txnflow.txninfra.com/operate"
+      # tasklist:
+      #   # redirectUrl: "http://txnflow.txninfra.com/tasklist"
+      # optimize:
+      #   # redirectUrl: "http://txnflow.txninfra.com/optimize"
+      # connectors:
+      #   # redirectUrl: "http://txnflow.txninfra.com/connectors"
+      # webModeler:
+      #   # redirectUrl: "http://txnflow.txninfra.com/modeler"
 
-identityKeycloak.enabled: false
+# identityKeycloak.enabled: false
 # identityKeycloak:
 #   image:
 #     repository: bitnami/keycloak
@@ -49,8 +49,9 @@ tasklist:
   # contextPath: "/tasklist"
 
 optimize:
-  service:
-    type: LoadBalancer
+  enabled: false
+  # service:
+  #   type: LoadBalancer
   # contextPath: "/optimize"
 
 connectors:
@@ -62,13 +63,13 @@ connectors:
 
 identity:
   enabled: false
-  service:
-    type: LoadBalancer
-  # contextPath: "/identity"
-  # fullURL: "http://txnflow.txninfra.com/identity"
-  env:
-  - name: USER_RESTRICTIONS_ENABLED
-    value: "true"
+  # service:
+  #   type: LoadBalancer
+  # # contextPath: "/identity"
+  # # fullURL: "http://txnflow.txninfra.com/identity"
+  # env:
+  # - name: USER_RESTRICTIONS_ENABLED
+  #   value: "true"
 
 zeebeGateway:
   service:
