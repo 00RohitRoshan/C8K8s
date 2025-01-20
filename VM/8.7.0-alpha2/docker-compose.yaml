@@ -15,7 +15,7 @@ services:
     container_name: zeebe
     ports:
       - "26500:26500"
-      - "9600:9600"
+      - "8089:9600"
       - "8088:8080"
     environment: # https://docs.camunda.io/docs/self-managed/zeebe-deployment/configuration/environment-variables/
       - ZEEBE_BROKER_GATEWAY_SECURITY_AUTHENTICATION_MODE=${ZEEBE_AUTHENTICATION_MODE}
@@ -284,6 +284,8 @@ services:
   postgres: # https://hub.docker.com/_/postgres
     container_name: postgres
     image: postgres:${POSTGRES_VERSION}
+    ports:
+    - "5432:5432"
     environment:
       POSTGRES_DB: bitnami_keycloak
       POSTGRES_USER: bn_keycloak
