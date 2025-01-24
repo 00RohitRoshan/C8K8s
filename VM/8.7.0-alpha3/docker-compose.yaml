@@ -31,6 +31,8 @@ services:
       - data.disk.freeSpace.processing=0.998
       - data.disk.freeSpace.replication=0.999
       - "JAVA_TOOL_OPTIONS=-Xms512m -Xmx512m"
+      - CAMUNDA_REST_QUERY_ENABLED=true
+      - camunda.rest.query.enabled=true
     restart: always
     healthcheck:
       test: [ "CMD-SHELL", "timeout 10s bash -c ':> /dev/tcp/127.0.0.1/9600' || exit 1" ]
@@ -144,7 +146,8 @@ services:
     ports:
       - "8085:8080"
     environment:
-      - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
+      - camunda.client.zeebe.grpc-address=http://35.200.195.169:26500
+      - camunda.client.zeebe.rest-address=http://35.200.195.169:8088
       - ZEEBE_CLIENT_SECURITY_PLAINTEXT=true
       - ZEEBE_CLIENT_ID=${ZEEBE_CLIENT_ID}
       - ZEEBE_CLIENT_SECRET=${ZEEBE_CLIENT_SECRET}
