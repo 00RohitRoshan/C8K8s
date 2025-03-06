@@ -1,0 +1,75 @@
+# Chart values for the Camunda 8 Helm chart.
+# This file deliberately contains only the values that differ from the defaults.
+# For changes and documentation, use your favorite diff tool to compare it with:
+# http://artifacthub.io/packages/helm/camunda/camunda-platform#parameters
+
+
+
+global:
+  # ingress:
+  #   enabled: true
+  #   className: nginx
+  #   host: "https://35.244.46.51:443/"
+
+  identity:
+    auth:
+      enabled: true
+      # publicIssuerUrl: "http://35.244.46.51:443/auth/realms/camunda-platform"
+      # operate:
+      #   redirectUrl: "https://35.244.46.51:443/operate"
+      # tasklist:
+      #   redirectUrl: "https://35.244.46.51:443/tasklist"
+      # optimize:
+      #   redirectUrl: "https://35.244.46.51:443/optimize"
+      # connectors:
+      #   redirectUrl: "https://35.244.46.51:443/connectors"
+
+identityKeycloak:
+  image:
+    repository: bitnami/keycloak
+    tag: 26.0.5
+  # extraEnvVars:
+  #   - name: FRONTEND_URL
+  #     value: "https://keycloak.txninfra.com/auth/"
+  #   - name: KEYCLOAK_FRONTEND_URL
+  #     value: "https://keycloak.txninfra.com/auth/"
+  #   - name: KC_HOSTNAME
+      # value: "https://keycloak.txninfra.com/auth/"
+    
+
+operate:
+  contextPath: "/operate"
+
+tasklist:
+  contextPath: "/tasklist"
+
+optimize:
+  contextPath: "/optimize"
+
+connectors:
+  enabled: true
+  inbound:
+    mode: disabled
+  contextPath: "/connectors"
+
+
+identity:
+  contextPath: "/identity"
+  # fullURL: "https://35.244.46.51:443/identity"
+
+
+zeebeGateway:
+  contextPath: "/zeebe"
+
+
+
+# helm upgrade --install camunda camunda/camunda-platform -f values.yaml -n camunda
+
+# kubectl expose deployment camunda-zeebe-gateway --type=LoadBalancer --port=8080 --target-port=8080 -n camunda
+# kubectl expose deployment camunda-zeebe-gateway --type=LoadBalancer --port=9600 --target-port=9600 -n camunda
+# kubectl expose deployment camunda-zeebe-gateway --type=LoadBalancer --port=26500 --target-port=26500 -n camunda
+ 
+# kubectl expose deployment camunda-elasticsearch-master --type=LoadBalancer --port=9200 --target-port=9200 -n camunda
+
+# helm upgrade --install camunda camunda/camunda-platform -f values.yaml -n camunda
+# Error: UPGRADE FAILED: failed to create resource: Ingress.networking.k8s.io "camunda-camunda-platform" is invalid: spec.rules[0].host: Invalid value: "https://35.244.46.51:443/": a lowercase RFC 1123 subdomain must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character (e.g. 'example.com', regex used for validation is '[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*')

@@ -183,43 +183,43 @@ services:
       - operate
       - identity
 
-  optimize: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#optimize
-    image: camunda/optimize:${CAMUNDA_OPTIMIZE_VERSION}
-    container_name: optimize
-    profiles: ["", "opensearch"]
-    ports:
-      - "8083:8090"
-    env_file:
-      - .env.${SEARCH_DB}
-    environment: # https://docs.camunda.io/docs/self-managed/optimize-deployment/setup/installation/#available-environment-variables
-      - SPRING_PROFILES_ACTIVE=ccsm
-      - CAMUNDA_OPTIMIZE_ZEEBE_ENABLED=true
-      - CAMUNDA_OPTIMIZE_ENTERPRISE=false
-      - CAMUNDA_OPTIMIZE_IDENTITY_ISSUER_URL=https://${KEYCLOAK_HOST}:18080/auth/realms/camunda-platform
-      - CAMUNDA_OPTIMIZE_IDENTITY_ISSUER_BACKEND_URL=http://keycloak:18080/auth/realms/camunda-platform
-      - CAMUNDA_OPTIMIZE_IDENTITY_CLIENTID=optimize
-      - CAMUNDA_OPTIMIZE_IDENTITY_CLIENTSECRET=XALaRPl5qwTEItdwCMiPS62nVpKs7dL7
-      - CAMUNDA_OPTIMIZE_IDENTITY_AUDIENCE=optimize-api
-      - CAMUNDA_OPTIMIZE_IDENTITY_BASE_URL=http://identity:8084
-      - CAMUNDA_OPTIMIZE_MULTITENANCY_ENABLED=${MULTI_TENANCY_ENABLED}
-      - CAMUNDA_OPTIMIZE_SECURITY_AUTH_COOKIE_SAME_SITE_ENABLED=false
-      - CAMUNDA_OPTIMIZE_UI_LOGOUT_HIDDEN=true
-      - management.endpoints.web.exposure.include=health
-      - management.endpoint.health.probes.enabled=true
-    healthcheck:
-      test: [ "CMD-SHELL", "curl -f http://localhost:8090/api/readyz" ]
-      interval: 30s
-      timeout: 1s
-      retries: 5
-      start_period: 30s
-    volumes:
-      - "./.optimize/environment-config.yaml:/optimize/config/environment-config.yaml"
-    restart: on-failure
-    networks:
-      - camunda-platform
-    depends_on:
-      - identity
-      - ${SEARCH_DB}
+  # optimize: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#optimize
+  #   image: camunda/optimize:${CAMUNDA_OPTIMIZE_VERSION}
+  #   container_name: optimize
+  #   profiles: ["", "opensearch"]
+  #   ports:
+  #     - "8083:8090"
+  #   env_file:
+  #     - .env.${SEARCH_DB}
+  #   environment: # https://docs.camunda.io/docs/self-managed/optimize-deployment/setup/installation/#available-environment-variables
+  #     - SPRING_PROFILES_ACTIVE=ccsm
+  #     - CAMUNDA_OPTIMIZE_ZEEBE_ENABLED=true
+  #     - CAMUNDA_OPTIMIZE_ENTERPRISE=false
+  #     - CAMUNDA_OPTIMIZE_IDENTITY_ISSUER_URL=https://${KEYCLOAK_HOST}:18080/auth/realms/camunda-platform
+  #     - CAMUNDA_OPTIMIZE_IDENTITY_ISSUER_BACKEND_URL=http://keycloak:18080/auth/realms/camunda-platform
+  #     - CAMUNDA_OPTIMIZE_IDENTITY_CLIENTID=optimize
+  #     - CAMUNDA_OPTIMIZE_IDENTITY_CLIENTSECRET=XALaRPl5qwTEItdwCMiPS62nVpKs7dL7
+  #     - CAMUNDA_OPTIMIZE_IDENTITY_AUDIENCE=optimize-api
+  #     - CAMUNDA_OPTIMIZE_IDENTITY_BASE_URL=http://identity:8084
+  #     - CAMUNDA_OPTIMIZE_MULTITENANCY_ENABLED=${MULTI_TENANCY_ENABLED}
+  #     - CAMUNDA_OPTIMIZE_SECURITY_AUTH_COOKIE_SAME_SITE_ENABLED=false
+  #     - CAMUNDA_OPTIMIZE_UI_LOGOUT_HIDDEN=true
+  #     - management.endpoints.web.exposure.include=health
+  #     - management.endpoint.health.probes.enabled=true
+  #   healthcheck:
+  #     test: [ "CMD-SHELL", "curl -f http://localhost:8090/api/readyz" ]
+  #     interval: 30s
+  #     timeout: 1s
+  #     retries: 5
+  #     start_period: 30s
+  #   volumes:
+  #     - "./.optimize/environment-config.yaml:/optimize/config/environment-config.yaml"
+  #   restart: on-failure
+  #   networks:
+  #     - camunda-platform
+  #   depends_on:
+  #     - identity
+  #     - ${SEARCH_DB}
 
   identity: # https://docs.camunda.io/docs/self-managed/platform-deployment/docker/#identity
     container_name: identity
@@ -362,10 +362,10 @@ services:
       cluster.name: opensearch-cluster
       network.bind_host: 0.0.0.0
       node.name: opensearch
-      plugins.security.disabled: true
+      plugins.security.disabled: "true"
       discovery.type: single-node
       discovery.seed_hosts: opensearch
-      bootstrap.memory_lock: true
+      bootstrap.memory_lock: "true"
       OPENSEARCH_JAVA_OPTS: "-Xms1G -Xmx1G"
       OPENSEARCH_INITIAL_ADMIN_PASSWORD: ${OPENSEARCH_INITIAL_ADMIN_PASSWORD}
     ulimits:
