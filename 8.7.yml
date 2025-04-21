@@ -1,0 +1,69 @@
+global:
+  ingress:
+    enabled: true
+    className: nginx
+    host: "camunda-stage.txninfra.com"
+
+  identity:
+    auth:
+      enabled: true
+      publicIssuerUrl: "http://camunda-stage.txninfra.com/auth/realms/camunda-platform"
+      operate:
+        redirectUrl: "https://camunda-stage.txninfra.com/operate"
+        existingSecret:
+          name: identity-secret-for-components
+      tasklist:
+        redirectUrl: "https://camunda-stage.txninfra.com/tasklist"
+        existingSecret:
+          name: identity-secret-for-components
+      optimize:
+        redirectUrl: "https://camunda-stage.txninfra.com/optimize"
+        existingSecret:
+          name: identity-secret-for-components
+      connectors:
+        redirectUrl: "https://camunda-stage.txninfra.com/connectors"
+        existingSecret:
+          name: identity-secret-for-components
+      zeebe:
+        existingSecret:
+          name: identity-secret-for-components
+
+
+identityKeycloak:
+  # image:
+  #   repository: bitnami/keycloak
+  #   tag: 26.0.5
+  extraEnvVars:
+    - name: FRONTEND_URL
+      value: "https://camunda-stage.txninfra.com/auth/"
+    - name: KEYCLOAK_FRONTEND_URL
+      value: "https://camunda-stage.txninfra.com/auth/"
+    - name: KC_HOSTNAME
+      value: "https://camunda-stage.txninfra.com/auth/"
+  auth:
+    existingSecret: identity-secret-for-components
+  postgresql:
+    auth:
+      existingSecret: identity-secret-for-components
+
+operate:
+  contextPath: "/operate"
+
+tasklist:
+  contextPath: "/tasklist"
+
+optimize:
+  contextPath: "/optimize"
+
+connectors:
+  enabled: true
+  inbound:
+    mode: disabled
+  contextPath: "/connectors"
+
+identity:
+  contextPath: "/identity"
+  fullURL: "https://camunda-stage.txninfra.com/identity"
+
+zeebeGateway:
+  contextPath: "/zeebe"
