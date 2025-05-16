@@ -1,0 +1,97 @@
+global:
+  ingress:
+    enabled: true
+    className: nginx
+    host: "camunda-stage.txninfra.com"
+  security:
+    authentication:
+      method: basic
+    authorizations:
+      enabled: false
+  identity:
+    auth:
+      enabled: false
+  #     # jwksUrl: "http://camunda-stage.txninfra.com/auth/realms/camunda-platform/protocol/openid-connect/certs"
+  #     publicIssuerUrl: "http://camunda-stage.txninfra.com/auth/realms/camunda-platform"
+  #     core:
+  #       redirectUrl: "http://camunda-stage.txninfra.com/core"
+  #       existingSecret:
+  #         name: identity-secret-for-components
+  #     identity:
+  #       redirectUrl: "http://camunda-stage.txninfra.com/identity"
+  #       # existingSecret: identity-secret-for-components
+  #     console:
+  #       redirectUrl: "http://camunda-stage.txninfra.com/console"
+  #       existingSecret:
+  #         name: identity-secret-for-components
+  #     optimize:
+  #       redirectUrl: "http://camunda-stage.txninfra.com/optimize"
+  #       existingSecret:
+  #         name: identity-secret-for-components
+  #     zeebe:
+  #       existingSecret:
+  #         name: identity-secret-for-components
+  #     connectors:
+  #       existingSecret:
+  #         name: identity-secret-for-components
+
+
+# identityKeycloak:
+#   extraEnvVars:
+#     - name: FRONTEND_URL
+#       value: "https://camunda-stage.txninfra.com/auth/"
+#     - name: KEYCLOAK_FRONTEND_URL
+#       value: "https://camunda-stage.txninfra.com/auth/"
+#     - name: KC_HOSTNAME
+#       value: "https://camunda-stage.txninfra.com/auth/"
+#   auth:
+#     existingSecret: identity-secret-for-components
+#   postgresql:
+#     auth:
+#       existingSecret: identity-secret-for-components
+
+# operate:
+#   contextPath: "/operate"
+
+# tasklist:
+#   contextPath: "/tasklist"
+
+optimize:
+  enabled: false
+  contextPath: "/optimize"
+
+# identity:
+#   enabled: true
+#   contextPath: "/identity"
+  # fullURL: "http://camunda-stage.txninfra.com/identity"
+
+# console:
+#   enabled: true
+#   contextPath: "/console"
+
+# webModeler:
+#   enabled: true
+#   contextPath: "/webmodeler"
+#   restapi:
+#     mail:
+#       smtpPassword: "jena%$#@123"
+#       fromAddress: rohit.r@iserveu.co.in
+  
+core:
+  ingress:
+    grpc:
+      enabled: true
+      path: "/zgrpc"
+      host: "camunda-stage.txninfra.com"
+  contextPath: "/core"
+  env:
+    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_BULK_DELAY
+      value: "1"
+    - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_BULK_SIZE
+      value: "100"
+    - name: ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_BULK_SIZE
+      value: "1000"
+    - name: ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_BULK_DELAY
+      value: "5"
+    
+
