@@ -9,19 +9,19 @@ global:
       enabled: true
       publicIssuerUrl: "http://camunda-stage.txninfra.com/auth/realms/camunda-platform"
       operate:
-        redirectUrl: "https://camunda-stage.txninfra.com/operate"
+        redirectUrl: "http://camunda-stage.txninfra.com/operate"
         existingSecret:
           name: identity-secret-for-components
       tasklist:
-        redirectUrl: "https://camunda-stage.txninfra.com/tasklist"
+        redirectUrl: "http://camunda-stage.txninfra.com/tasklist"
         existingSecret:
           name: identity-secret-for-components
       optimize:
-        redirectUrl: "https://camunda-stage.txninfra.com/optimize"
+        redirectUrl: "http://camunda-stage.txninfra.com/optimize"
         existingSecret:
           name: identity-secret-for-components
       connectors:
-        redirectUrl: "https://camunda-stage.txninfra.com/connectors"
+        redirectUrl: "http://camunda-stage.txninfra.com/connectors"
         existingSecret:
           name: identity-secret-for-components
       zeebe:
@@ -30,9 +30,6 @@ global:
 
 
 identityKeycloak:
-  # image:
-  #   repository: bitnami/keycloak
-  #   tag: 26.0.5
   extraEnvVars:
     - name: FRONTEND_URL
       value: "https://camunda-stage.txninfra.com/auth/"
@@ -56,14 +53,24 @@ optimize:
   contextPath: "/optimize"
 
 connectors:
-  enabled: true
-  inbound:
-    mode: disabled
-  contextPath: "/connectors"
+  # enabled: true
+  # inbound:
+  #   mode: disabled
+  # contextPath: "/connectors"
+  logging:
+    level:
+      io.camunda.connector: debug
 
 identity:
   contextPath: "/identity"
-  fullURL: "https://camunda-stage.txninfra.com/identity"
+  fullURL: "http://camunda-stage.txninfra.com/identity"
 
 zeebeGateway:
   contextPath: "/zeebe"
+  ingress:
+    grpc:
+      enabled: true
+      path: /zgrpc
+    rest:
+      enabled: true
+      path: /zeebe

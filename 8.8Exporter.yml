@@ -1,0 +1,200 @@
+    spring:
+      servlet:
+        multipart:
+          max-file-size: "10MB"
+          max-request-size: "10MB"
+      profiles:
+        active: "identity,operate,tasklist,broker,consolidated-auth"
+
+    management:
+      server:
+        port: 9600
+
+    server:
+      forward-headers-strategy: none
+      address: 0.0.0.0
+      port: 8080
+      servlet:
+
+    zeebe:
+      host: 0.0.0.0
+      log:
+        level: "info"
+
+      broker:
+        # zeebe.broker.gateway
+        gateway:
+          enable: true
+          network:
+            host: 0.0.0.0
+            port: 26500
+
+        # zeebe.broker.network
+        network:
+          advertisedHost: "${K8S_NAME}.${K8S_SERVICE_NAME}"
+          host: 0.0.0.0
+          commandApi:
+            port: 26501
+          internalApi:
+            port: 26502
+
+        # zeebe.broker.cluster
+        cluster:
+          # The value of "nodeId" is set via the "ZEEBE_BROKER_CLUSTER_NODEID" env var.
+          # As it depends on the Pod name, which cannot be templated at the installation time.
+          # nodeId:
+          initialContactPoints:
+            - camunda-zeebe-0.${K8S_SERVICE_NAME}:26502
+            - camunda-zeebe-1.${K8S_SERVICE_NAME}:26502
+            - camunda-zeebe-2.${K8S_SERVICE_NAME}:26502
+          clusterSize: "3"
+          replicationFactor: "3"
+          partitionsCount: "3"
+          clusterName: camunda-zeebe
+
+        # zeebe.broker.data
+        data:
+          snapshotPeriod: 5m
+          freeSpace:
+            processing: 2GB
+            replication: 3GB
+
+        # zeebe.broker.threads
+        threads:
+          cpuThreadCount: "3"
+          ioThreadCount: "3"
+
+        # zeebe.broker.exporters
+        exporters:
+          elasticsearch:
+            className: "io.camunda.zeebe.exporter.ElasticsearchExporter"
+            args:
+              url: "http://camunda-elasticsearch:9200"
+              index:
+                prefix: "zeebe-record"
+          CamundaExporter:
+            className: "io.camunda.exporter.CamundaExporter"
+            args:
+              connect:
+                type: elasticsearch
+                url: "http://camunda-elasticsearch:9200"
+              history:
+                elsRolloverDateFormat: "date"
+                rolloverInterval: "1d"
+                rolloverBatchSize: 100
+                waitPeriodBeforeArchiving: "1h"
+                delayBetweenRuns: 2000
+                maxDelayBetweenRuns: 60000
+              createSchema: true
+              # ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_BULK_SIZE
+              # ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_BULK_DELAY
+              bulk:
+                delay: 5
+                size: 1000
+
+    camunda:
+      persistent:
+        sessions:
+          enabled: true
+
+      rest:
+        query:
+          enabled: true
+
+      security:
+        authentication:
+          method: "basic"
+          unprotectedApi: false
+        authorizations:
+          enabled: true
+        initialization:
+          users:
+            - username: "demo"
+              password: "demo"
+              name: "Demo User"
+              email: "demo@demo.com"
+        multiTenancy:
+            enabled: false
+
+      #
+      # Camunda Database Configuration.
+      #
+      database:
+        type: elasticsearch
+        # Cluster name
+        clusterName: elasticsearch
+        # Elasticsearch full url
+        url: "http://camunda-elasticsearch:9200"
+
+      #
+      # Camunda Operate Configuration.
+      #
+      operate:
+        persistentSessionsEnabled: true
+
+        # ELS instance to store Operate data
+        elasticsearch:
+          # Operate index prefix.
+          # Cluster name
+          clusterName: elasticsearch
+          # Host
+          host: camunda-elasticsearch
+          # Transport port
+          port: 9200
+          # Elasticsearch full url
+          url: "http://camunda-elasticsearch:9200"
+        # ELS instance to export Zeebe data to
+        zeebeElasticsearch:
+          # Cluster name
+          clusterName: elasticsearch
+          # Host
+          host: camunda-elasticsearch
+          # Transport port
+          port: 9200
+          # Index prefix, configured in Zeebe Elasticsearch exporter
+          prefix: "zeebe-record"
+          # Elasticsearch full url
+          url: "http://camunda-elasticsearch:9200"
+        # Zeebe instance
+        zeebe:
+          # Gateway address
+          gatewayAddress: "camunda-core:26500"
+
+      #
+      # Camunda Tasklist Configuration.
+      #
+      tasklist:
+
+        # Set Tasklist username and password.
+        # If user with <username> does not exists it will be created.
+        # Default: demo/demo
+        #username:
+        #password:
+        # ELS instance to store Tasklist data
+        elasticsearch:
+          # Tasklist index prefix.
+          # Cluster name
+          clusterName: elasticsearch
+          # Host
+          host: camunda-elasticsearch
+          # Transport port
+          port: 9200
+          # Elasticsearch full url
+          url: "http://camunda-elasticsearch:9200"
+        # ELS instance to export Zeebe data to
+        zeebeElasticsearch:
+          # Cluster name
+          clusterName: elasticsearch
+          # Host
+          host: camunda-elasticsearch
+          # Transport port
+          port: 9200
+          # Index prefix, configured in Zeebe Elasticsearch exporter
+          prefix: "zeebe-record"
+          # Elasticsearch full url
+          url: "http://camunda-elasticsearch:9200"
+        # Zeebe instance
+        zeebe:
+          # Gateway address
+          gatewayAddress: camunda-core:26500
+          restAddress: "http://camunda-core:8080"
