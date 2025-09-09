@@ -1,0 +1,42 @@
+# Chart values for the Camunda 8 Helm chart.
+# This file deliberately contains only the values that differ from the defaults.
+# For changes and documentation, use your favorite diff tool to compare it with:
+# http://artifacthub.io/packages/helm/camunda/camunda-platform#parameters
+                    
+core:
+  contextPath: /core
+  env:
+  - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_BULK_DELAY
+    value: "1"
+  - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_BULK_SIZE
+    value: "100"
+  - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_RETENTION_ENABLED
+    value: "true"
+  - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_RETENTION_MINIMUMAGE
+    value: 30d
+  - name: ZEEBE_BROKER_EXPORTERS_CAMUNDAEXPORTER_ARGS_RETENTION_POLICYNAME
+    value: zeebe-records-retention-policy
+  ingress:
+    grpc:
+      enabled: false
+global:
+  identity:
+    auth:
+      enabled: false
+  ingress:
+    enabled: false
+  security:
+    authentication:
+      method: basic
+    authorizations:
+      enabled: false
+    initialization:
+      users:
+        ## @extra global.security.initialization.users.username, the username of an initial user.
+        - username: demo
+          ## @extra global.security.initialization.users.password, the password of an initial user.
+          password: demo@camunda@isu
+
+optimize:
+  contextPath: /optimize
+  enabled: false   
