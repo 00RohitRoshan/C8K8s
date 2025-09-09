@@ -1,0 +1,25 @@
+{
+  "components": [
+    {
+      "label": "",
+      "components": [],
+      "showOutline": true,
+      "type": "group",
+      "layout": {
+        "row": "Row_0e46urz",
+        "columns": null
+      },
+      "id": "Field_1m0os8d",
+      "path": "checker"
+    }
+  ],
+  "type": "default",
+  "id": "Checker_Form",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.7.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.37.0"
+  },
+  "schemaVersion": 18
+}

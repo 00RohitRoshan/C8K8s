@@ -1,0 +1,548 @@
+{
+  "components": [
+    {
+      "label": "",
+      "components": [
+        {
+          "label": "Merchant Mobile No",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1r3d5si",
+            "columns": null
+          },
+          "id": "Field_1grr6nq",
+          "key": "mobile_no",
+          "validate": {
+            "required": true,
+            "maxLength": "10"
+          },
+          "properties": {
+            "placeholder": "Enter Merchant MobileNo.",
+            "maxLength": "12"
+          },
+          "description": "=merchant_detail.mobNo_err"
+        },
+        {
+          "label": "Merchant Account No",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1r3d5si",
+            "columns": null
+          },
+          "id": "Field_0mr15id",
+          "key": "account_no",
+          "validate": {
+            "required": true,
+            "maxLength": "10"
+          },
+          "properties": {
+            "placeholder": "Enter Merchant Account Number",
+            "maxLength": "20"
+          },
+          "description": "=merchant_detail.accountNo_err"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1i67mt2",
+            "columns": null
+          },
+          "id": "Field_0yty20c",
+          "key": "mobNo_err",
+          "expression": "=if merchant_detail.mobile_no = \"\" then null else if matches(merchant_detail.mobile_no ,\"^[6-9][0-9]{9}$\") = false then \"Enter a valid Mobile Number\" else null"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1i67mt2",
+            "columns": null
+          },
+          "id": "Field_11p40n0",
+          "key": "accountNo_err",
+          "expression": "=if merchant_detail.account_no = \"\" then null else if matches(merchant_detail.account_no ,\"^\\d{10}$\") = false then \"Enter a valid Account Number\" else null"
+        },
+        {
+          "label": "Merchant Account Type",
+          "values": [
+            {
+              "label": "CURRENT",
+              "value": "CURRENT"
+            },
+            {
+              "label": "SAVINGS",
+              "value": "SAVINGS"
+            },
+            {
+              "label": "Cent Vyavsaay",
+              "value": "Cent Vyavsaay"
+            },
+            {
+              "label": "CCOD",
+              "value": "CCOD"
+            }
+          ],
+          "type": "select",
+          "layout": {
+            "row": "Row_1ium7nw",
+            "columns": null
+          },
+          "id": "Field_1d62xki",
+          "key": "account_type",
+          "validate": {
+            "required": true
+          },
+          "properties": {
+            "placeholder": "Enter Merchant ID"
+          }
+        },
+        {
+          "label": "IFSC Code",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1ium7nw",
+            "columns": null
+          },
+          "id": "Field_0l465rf",
+          "key": "bank_ifsc",
+          "validate": {
+            "required": true
+          },
+          "properties": {
+            "placeholder": "Enter IFSC Code",
+            "maxLength": "11"
+          },
+          "description": "=merchant_detail.ifsc_err",
+          "disabled": false
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1q7mpg9",
+            "columns": null
+          },
+          "id": "Field_1b93xof",
+          "key": "ifsc_err",
+          "expression": "=if merchant_detail.bank_ifsc = \"\" then null else if matches(merchant_detail.bank_ifsc ,\"^CBIN[0-9]{7}$\") = false then \"Enter a valid IFSC Code\" else null"
+        },
+        {
+          "label": "Merchant Name",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0s51po4",
+            "columns": null
+          },
+          "id": "Field_0pyx04q",
+          "key": "merchant_name",
+          "validate": {
+            "required": true,
+            "maxLength": "50"
+          },
+          "properties": {
+            "placeholder": "Enter Merchant Name",
+            "maxLength": "100"
+          },
+          "description": "=merchant_detail.merName_err"
+        },
+        {
+          "label": "Channel ID",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0s51po4",
+            "columns": null
+          },
+          "id": "Field_1jsgsp4",
+          "key": "channel_id",
+          "readonly": "on",
+          "defaultValue": "UPI",
+          "validate": {
+            "required": true,
+            "maxLength": "10"
+          },
+          "description": "=merchant_detail.channelId_err",
+          "disabled": false,
+          "properties": {
+            "maxLength": "100"
+          }
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1c2f2sf",
+            "columns": null
+          },
+          "id": "Field_085qoon",
+          "key": "merName_err",
+          "expression": "=if merchant_detail.merchant_name = \"\" then null else if matches(merchant_detail.merchant_name ,\"^[a-zA-Z ]+$\") = false or starts with(merchant_detail.merchant_name, \" \") or ends with(merchant_detail.merchant_name, \" \") then \"Enter a valid Merchant Name\" else null"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1c2f2sf",
+            "columns": null
+          },
+          "id": "Field_0sizgf5",
+          "key": "channelId_err",
+          "expression": "=if merchant_detail.channel_id = \"\" then null else if matches(merchant_detail.channel_id ,\"^UPI$\") = false then \"Enter a valid Channel Id\" else null"
+        },
+        {
+          "label": "MCC",
+          "type": "select",
+          "layout": {
+            "row": "Row_1a8pqvz",
+            "columns": null
+          },
+          "id": "Field_0fhxj2n",
+          "key": "mccCommon",
+          "validate": {
+            "required": true
+          },
+          "searchable": true,
+          "valuesExpression": "=flatten([mccList,[{ \n      \"label\":\"Others\",\n      \"value\":\"Others\",\n      \"is_common\":\"Y\"\n    }]])[item.is_common=\"Y\"]",
+          "conditional": {
+            "hide": "=merchant_detail.hide = true"
+          }
+        },
+        {
+          "label": "MCC",
+          "type": "select",
+          "layout": {
+            "row": "Row_1a8pqvz",
+            "columns": null
+          },
+          "id": "Field_0nixcut",
+          "key": "mccOthers",
+          "conditional": {
+            "hide": "=merchant_detail.hide = false or merchant_detail.hide = null"
+          },
+          "valuesExpression": "=mccList[item.is_common=\"N\"]",
+          "searchable": true,
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "GSTIN",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1a8pqvz",
+            "columns": null
+          },
+          "id": "Field_12g1j0h",
+          "key": "gstin_no",
+          "properties": {
+            "placeholder": "Enter GSTIN",
+            "maxLength": "100"
+          },
+          "validate": {
+            "maxLength": 100
+          }
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_08g55qu",
+            "columns": null
+          },
+          "id": "Field_0kujo4e",
+          "key": "hide",
+          "expression": "=if  merchant_detail.mccCommon = \"Others\" or  merchant_detail.mccOthers!= null  then true else false"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_08g55qu",
+            "columns": null
+          },
+          "id": "Field_1bev0e4",
+          "key": "mcc",
+          "expression": "=if  merchant_detail.mccOthers then merchant_detail.mccOthers else merchant_detail.mccCommon"
+        },
+        {
+          "label": "Store ID",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0okgkeq",
+            "columns": 8
+          },
+          "id": "Field_0rnce2t",
+          "key": "store_id",
+          "validate": {
+            "required": true,
+            "maxLength": "100"
+          },
+          "readonly": "on",
+          "properties": {
+            "placeholder": "Enter Store ID"
+          },
+          "disabled": false,
+          "defaultValue": "1234"
+        },
+        {
+          "label": "Merchant Genre",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0okgkeq",
+            "columns": null
+          },
+          "id": "Field_1vwb0td",
+          "key": "merchant_genre",
+          "readonly": "on",
+          "validate": {
+            "required": true
+          },
+          "defaultValue": "OFFLINE"
+        },
+        {
+          "label": "Onboarding Type",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1agu5o8",
+            "columns": 8
+          },
+          "id": "Field_05g5zp8",
+          "key": "onboarding_type",
+          "validate": {
+            "required": true
+          },
+          "readonly": "on",
+          "defaultValue": "BANK"
+        },
+        {
+          "label": "QR Type",
+          "values": [
+            {
+              "label": "STATIC",
+              "value": "STATIC"
+            }
+          ],
+          "type": "select",
+          "layout": {
+            "row": "Row_1agu5o8",
+            "columns": 8
+          },
+          "id": "Field_0grnqmy",
+          "key": "qr_type",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Is Verified(If turnover 50CR-YES,Otherwise-No)",
+          "values": [
+            {
+              "label": "YES",
+              "value": "Y"
+            },
+            {
+              "label": "NO",
+              "value": "N"
+            }
+          ],
+          "type": "select",
+          "layout": {
+            "row": "Row_1qpvou1",
+            "columns": 16
+          },
+          "id": "Field_0hwsxth",
+          "key": "is_verified",
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "label": "Address",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1xhxno4",
+            "columns": 8
+          },
+          "id": "Field_0q5a77p",
+          "key": "address",
+          "validate": {
+            "required": true,
+            "maxLength": "255"
+          },
+          "properties": {
+            "placeholder": "Enter Address",
+            "maxLength": "1024"
+          },
+          "description": "=merchant_detail.address_err"
+        },
+        {
+          "label": "State",
+          "type": "select",
+          "layout": {
+            "row": "Row_1xhxno4",
+            "columns": null
+          },
+          "id": "Field_1pbc5p0",
+          "key": "state",
+          "valuesExpression": "=[\n    {\n        \"label\": \"ANDAMAN & NICOBAR ISLANDS\",\n        \"value\": \"ANDAMAN & NICOBAR ISLANDS\"\n    },\n    {\n        \"label\": \"ANDHRA PRADESH\",\n        \"value\": \"ANDHRA PRADESH\"\n    },\n    {\n        \"label\": \"ARUNACHAL PRADESH\",\n        \"value\": \"ARUNACHAL PRADESH\"\n    },\n    {\n        \"label\": \"ASSAM\",\n        \"value\": \"ASSAM\"\n    },\n    {\n        \"label\": \"BIHAR\",\n        \"value\": \"BIHAR\"\n    },\n    {\n        \"label\": \"CHANDIGARH\",\n        \"value\": \"CHANDIGARH\"\n    },\n    {\n        \"label\": \"CHHATTISGARH\",\n        \"value\": \"CHHATTISGARH\"\n    },\n    {\n        \"label\": \"DELHI\",\n        \"value\": \"DELHI\"\n    },\n    {\n        \"label\": \"GOA\",\n        \"value\": \"GOA\"\n    },\n    {\n        \"label\": \"GUJARAT\",\n        \"value\": \"GUJARAT\"\n    },\n    {\n        \"label\": \"HARYANA\",\n        \"value\": \"HARYANA\"\n    },\n    {\n        \"label\": \"HIMACHAL PRADESH\",\n        \"value\": \"HIMACHAL PRADESH\"\n    },\n    {\n        \"label\": \"JAMMU AND KASHMIR\",\n        \"value\": \"JAMMU AND KASHMIR\"\n    },\n    {\n        \"label\": \"JHARKHAND\",\n        \"value\": \"JHARKHAND\"\n    },\n    {\n        \"label\": \"KARNATAKA\",\n        \"value\": \"KARNATAKA\"\n    },\n    {\n        \"label\": \"KERALA\",\n        \"value\": \"KERALA\"\n    },\n    {\n        \"label\": \"LADAKH\",\n        \"value\": \"LADAKH\"\n    },\n    {\n        \"label\": \"LAKSHADWEEP\",\n        \"value\": \"LAKSHADWEEP\"\n    },\n    {\n        \"label\": \"MADHYA PRADESH\",\n        \"value\": \"MADHYA PRADESH\"\n    },\n    {\n        \"label\": \"MAHARASHTRA\",\n        \"value\": \"MAHARASHTRA\"\n    },\n    {\n        \"label\": \"MANIPUR\",\n        \"value\": \"MANIPUR\"\n    },\n    {\n        \"label\": \"MEGHALAYA\",\n        \"value\": \"MEGHALAYA\"\n    },\n    {\n        \"label\": \"MIZORAM\",\n        \"value\": \"MIZORAM\"\n    },\n    {\n        \"label\": \"NAGALAND\",\n        \"value\": \"NAGALAND\"\n    },\n    {\n        \"label\": \"ODISHA\",\n        \"value\": \"ODISHA\"\n    },\n    {\n        \"label\": \"PUDUCHERRY\",\n        \"value\": \"PUDUCHERRY\"\n    },\n    {\n        \"label\": \"PUNJAB\",\n        \"value\": \"PUNJAB\"\n    },\n    {\n        \"label\": \"RAJASTHAN\",\n        \"value\": \"RAJASTHAN\"\n    },\n    {\n        \"label\": \"SIKKIM\",\n        \"value\": \"SIKKIM\"\n    },\n    {\n        \"label\": \"TAMIL NADU\",\n        \"value\": \"TAMIL NADU\"\n    },\n    {\n        \"label\": \"TELANGANA\",\n        \"value\": \"TELANGANA\"\n    },\n    {\n        \"label\": \"DADRA & NAGAR HAVELI & DAMAN & DIU\",\n        \"value\": \"DADRA & NAGAR HAVELI & DAMAN & DIU\"\n    },\n    {\n        \"label\": \"TRIPURA\",\n        \"value\": \"TRIPURA\"\n    },\n    {\n        \"label\": \"UTTAR PRADESH\",\n        \"value\": \"UTTAR PRADESH\"\n    },\n    {\n        \"label\": \"UTTARAKHAND\",\n        \"value\": \"UTTARAKHAND\"\n    },\n    {\n        \"label\": \"WEST BENGAL\",\n        \"value\": \"WEST BENGAL\"\n    }\n]",
+          "validate": {
+            "required": true
+          },
+          "properties": {
+            "placeholder": "Select State"
+          }
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1uyf4yh",
+            "columns": null
+          },
+          "id": "Field_00anfy6",
+          "key": "address_err",
+          "expression": "=if merchant_detail.address = \"\" then null else if matches(merchant_detail.address ,\"^\\s+$\") = true  or starts with(merchant_detail.address, \" \") or ends with(merchant_detail.address, \" \") then \"Enter a valid Address\" else null"
+        },
+        {
+          "label": "City",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1pkeqli",
+            "columns": 8
+          },
+          "id": "Field_0igbdns",
+          "key": "city",
+          "validate": {
+            "required": true,
+            "maxLength": 255
+          },
+          "properties": {
+            "placeholder": "Enter City",
+            "maxLength": "255"
+          },
+          "description": "=merchant_detail.city_err"
+        },
+        {
+          "label": "Pin Code",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_1pkeqli",
+            "columns": null
+          },
+          "id": "Field_1w11eqw",
+          "key": "pin_code",
+          "validate": {
+            "required": true
+          },
+          "properties": {
+            "placeholder": "Enter Pincode",
+            "maxLength": "6"
+          },
+          "description": "=merchant_detail.pinCode_err"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_070outj",
+            "columns": null
+          },
+          "id": "Field_1f7ui2r",
+          "key": "city_err",
+          "expression": "=if merchant_detail.city = \"\" then null else if matches(merchant_detail.city ,\"^[^0-9]+$\") = false or matches(merchant_detail.city ,\"^\\s+$\") = true or starts with(merchant_detail.city, \" \") or ends with(merchant_detail.city, \" \") then \"Enter a valid City name\" else null"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_070outj",
+            "columns": null
+          },
+          "id": "Field_06zpyec",
+          "key": "pinCode_err",
+          "expression": "=if merchant_detail.pin_code = \"\" then null else if matches(merchant_detail.pin_code ,\"^[1-9][0-9]{5}$\") = false then \"Enter a valid Pin Code\" else null"
+        },
+        {
+          "computeOn": "presubmit",
+          "type": "expression",
+          "layout": {
+            "row": "Row_070outj",
+            "columns": null
+          },
+          "id": "Field_0511hs0",
+          "key": "formInputError",
+          "expression": "=if  merchant_detail.mobNo_err then merchant_detail.mobNo_err\nelse if merchant_detail.accountNo_err then merchant_detail.accountNo_err\nelse if merchant_detail.ifsc_err then merchant_detail.ifsc_err\nelse if \nmerchant_detail.merName_err then merchant_detail.merName_err else if \nmerchant_detail.channelId_err then merchant_detail.channelId_err \nelse if merchant_detail.address_err then merchant_detail.address_err\nelse if merchant_detail.city_err then merchant_detail.city_err\nelse if merchant_detail.pinCode_err then merchant_detail.pinCode_err\nelse if merchant_detail.mccOthers = null and (merchant_detail.mccCommon = \"Others\" or merchant_detail.mccCommon = null) then \"Please select a valid MCC\"\nelse null"
+        },
+        {
+          "computeOn": "change",
+          "type": "expression",
+          "layout": {
+            "row": "Row_1qqsv5q",
+            "columns": null
+          },
+          "id": "Field_0eaayrd",
+          "key": "entity_id",
+          "expression": "=\"centralbank\""
+        },
+        {
+          "text": "=\"Rejection Remark : \" + string(checker.remarks)",
+          "type": "text",
+          "layout": {
+            "row": "Row_1a45gme",
+            "columns": null
+          },
+          "id": "Field_1m6y4qe",
+          "conditional": {
+            "hide": "=onboarding_status!=\"Rejected\""
+          }
+        },
+        {
+          "content": "",
+          "type": "html",
+          "layout": {
+            "row": "Row_1egei8k",
+            "columns": 8
+          },
+          "id": "Field_1ujc7bt"
+        },
+        {
+          "label": "Cancel",
+          "action": "reset",
+          "type": "button",
+          "layout": {
+            "row": "Row_1egei8k",
+            "columns": 4
+          },
+          "id": "Field_18qnpo5"
+        },
+        {
+          "label": "=if onboarding_status=\"Not Submitted\" then \"Create\" else \"Update\"",
+          "action": "submit",
+          "type": "button",
+          "layout": {
+            "row": "Row_1egei8k",
+            "columns": 2
+          },
+          "id": "Field_0dcq8m1"
+        }
+      ],
+      "showOutline": false,
+      "type": "group",
+      "layout": {
+        "row": "Row_0htlqwa",
+        "columns": null
+      },
+      "id": "Field_0q727h2",
+      "path": "merchant_detail"
+    }
+  ],
+  "type": "default",
+  "id": "Merchant_Detail_Cboi",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.38.1"
+  },
+  "schemaVersion": 19
+}
