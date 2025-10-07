@@ -125,7 +125,7 @@
           },
           "id": "Field_1b93xof",
           "key": "ifsc_err",
-          "expression": "=if merchant_detail.bank_ifsc = \"\" then null else if matches(merchant_detail.bank_ifsc ,\"^CBIN[0-9]{7}$\") = false then \"Enter a valid IFSC Code\" else null"
+          "expression": "=if merchant_detail.bank_ifsc = \"\" then null else if matches(merchant_detail.bank_ifsc ,\"^CBIN[^\\s]{1,7}$\") = false then \"Enter a valid IFSC Code\" else null"
         },
         {
           "label": "Merchant Name",
@@ -348,13 +348,34 @@
           "type": "select",
           "layout": {
             "row": "Row_1qpvou1",
-            "columns": 16
+            "columns": 8
           },
           "id": "Field_0hwsxth",
           "key": "is_verified",
           "validate": {
             "required": true
           }
+        },
+        {
+          "label": "Settlement Type",
+          "values": [
+            {
+              "label": "Instant",
+              "value": "Instant"
+            },
+            {
+              "label": "T+1",
+              "value": "T+1"
+            }
+          ],
+          "type": "select",
+          "layout": {
+            "row": "Row_1qpvou1",
+            "columns": 8
+          },
+          "id": "Field_08v4w3k",
+          "key": "settlement_type",
+          "defaultValue": "Instant"
         },
         {
           "label": "Address",
