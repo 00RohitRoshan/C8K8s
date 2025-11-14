@@ -277,7 +277,7 @@
             "required": true,
             "maxLength": "100"
           },
-          "readonly": "on",
+          "readonly": false,
           "properties": {
             "placeholder": "Enter Store ID"
           },
@@ -348,34 +348,13 @@
           "type": "select",
           "layout": {
             "row": "Row_1qpvou1",
-            "columns": 8
+            "columns": 16
           },
           "id": "Field_0hwsxth",
           "key": "is_verified",
           "validate": {
             "required": true
           }
-        },
-        {
-          "label": "Settlement Type",
-          "values": [
-            {
-              "label": "Instant",
-              "value": "Instant"
-            },
-            {
-              "label": "T+1",
-              "value": "T+1"
-            }
-          ],
-          "type": "select",
-          "layout": {
-            "row": "Row_1qpvou1",
-            "columns": 8
-          },
-          "id": "Field_08v4w3k",
-          "key": "settlement_type",
-          "defaultValue": "Instant"
         },
         {
           "label": "Address",
@@ -518,6 +497,28 @@
           }
         },
         {
+          "computeOn": "presubmit",
+          "type": "expression",
+          "layout": {
+            "row": "Row_0idsnzk",
+            "columns": null
+          },
+          "id": "Field_0b02zyr",
+          "key": "created_date",
+          "expression": "=if onboarding_status = \"Not Submitted\" then now() else merchant_detail.created_date"
+        },
+        {
+          "computeOn": "presubmit",
+          "type": "expression",
+          "layout": {
+            "row": "Row_0idsnzk",
+            "columns": null
+          },
+          "id": "Field_12yu76s",
+          "key": "updated_date",
+          "expression": "=if onboarding_status = \"Not Submitted\" then null else now()"
+        },
+        {
           "content": "",
           "type": "html",
           "layout": {
@@ -563,7 +564,7 @@
   "executionPlatformVersion": "8.8.0",
   "exporter": {
     "name": "Camunda Modeler",
-    "version": "5.38.1"
+    "version": "5.40.1"
   },
   "schemaVersion": 19
 }
