@@ -128,6 +128,40 @@
           "expression": "=if merchant_detail.bank_ifsc = \"\" then null else if matches(merchant_detail.bank_ifsc ,\"^CBIN[^\\s]{1,7}$\") = false then \"Enter a valid IFSC Code\" else null"
         },
         {
+          "label": "Region",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0s0db0n",
+            "columns": null
+          },
+          "id": "Field_1ctnuz8",
+          "key": "ro",
+          "readonly": true
+        },
+        {
+          "label": "Branch",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0s0db0n",
+            "columns": null
+          },
+          "id": "Field_1ys9077",
+          "key": "bo",
+          "disabled": false,
+          "readonly": true
+        },
+        {
+          "label": "Zone",
+          "type": "textfield",
+          "layout": {
+            "row": "Row_0s0db0n",
+            "columns": null
+          },
+          "id": "Field_19pltrx",
+          "key": "zo",
+          "readonly": true
+        },
+        {
           "label": "Merchant Name",
           "type": "textfield",
           "layout": {
@@ -495,28 +529,6 @@
           "conditional": {
             "hide": "=onboarding_status!=\"Rejected\""
           }
-        },
-        {
-          "computeOn": "presubmit",
-          "type": "expression",
-          "layout": {
-            "row": "Row_0idsnzk",
-            "columns": null
-          },
-          "id": "Field_0b02zyr",
-          "key": "created_date",
-          "expression": "=if onboarding_status = \"Not Submitted\" then now() else merchant_detail.created_date"
-        },
-        {
-          "computeOn": "presubmit",
-          "type": "expression",
-          "layout": {
-            "row": "Row_0idsnzk",
-            "columns": null
-          },
-          "id": "Field_12yu76s",
-          "key": "updated_date",
-          "expression": "=if onboarding_status = \"Not Submitted\" then null else now()"
         },
         {
           "content": "",
