@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0kxuymb" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.40.1" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.8.0">
+  <bpmn:process id="Process_cu1" name="Process cu1" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:extensionElements>
+        <zeebe:ioMapping>
+          <zeebe:output source="=[&#34;abc&#34;,&#34;xyz&#34;]" target="culist" />
+        </zeebe:ioMapping>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_017um0f</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:userTask id="Activity_14t4owj" name="checker">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+        <zeebe:assignmentDefinition assignee="don&#39;t_remove" candidateGroups="" candidateUsers="=remove(culist, index of(culist, &#34;xyz&#34;)[1])" />
+        <zeebe:formDefinition formId="Merchant_Detail_Cboi" />
+        <zeebe:taskSchedule dueDate="" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_017um0f</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kevbvn</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0kevbvn" sourceRef="Activity_14t4owj" targetRef="Activity_0o1fxzu" />
+    <bpmn:userTask id="Activity_0o1fxzu" name="Hzos">
+      <bpmn:extensionElements>
+        <zeebe:userTask />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0kevbvn</bpmn:incoming>
+      <bpmn:outgoing>Flow_1jcr350</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:endEvent id="Event_1oxcfyd">
+      <bpmn:incoming>Flow_1jcr350</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1jcr350" sourceRef="Activity_0o1fxzu" targetRef="Event_1oxcfyd" />
+    <bpmn:sequenceFlow id="Flow_017um0f" sourceRef="StartEvent_1" targetRef="Activity_14t4owj" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_cu1">
+      <bpmndi:BPMNShape id="Activity_0wikc29_di" bpmnElement="Activity_0o1fxzu">
+        <dc:Bounds x="570" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1oxcfyd_di" bpmnElement="Event_1oxcfyd">
+        <dc:Bounds x="702" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_14q937h_di" bpmnElement="Activity_14t4owj">
+        <dc:Bounds x="380" y="80" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent_1">
+        <dc:Bounds x="152" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0kevbvn_di" bpmnElement="Flow_0kevbvn">
+        <di:waypoint x="480" y="120" />
+        <di:waypoint x="570" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1jcr350_di" bpmnElement="Flow_1jcr350">
+        <di:waypoint x="670" y="120" />
+        <di:waypoint x="702" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_017um0f_di" bpmnElement="Flow_017um0f">
+        <di:waypoint x="188" y="120" />
+        <di:waypoint x="380" y="120" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
